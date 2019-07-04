@@ -1,0 +1,157 @@
+
+\documentclass[journal]{IEEEtran}
+
+
+%%------------------------------------------------------
+%% Packages
+%%------------------------------------------------------
+\usepackage[T1]{fontenc}           %% Codificação de caracteres
+\usepackage[utf8]{inputenc}       
+\usepackage[dvips]{graphicx}       %% para a macro includegraphics 
+\usepackage[english,brazil]{babel} %% PT_BR e EN (o último define a prioridade no arquivo)
+\usepackage{pgf}                   %% macro para criar gráficos
+\usepackage{epsfig}                %% or use the epsfig package if you prefer to use the old commands
+\usepackage{graphics}              %% use the graphics package for simple commands
+\usepackage{graphicx}              %% or use the graphicx package for more complicated commands
+\usepackage{epstopdf}              
+\usepackage{float}                 
+\usepackage{eqparbox}              
+\usepackage{hyphenat}              
+\usepackage{hyperref}              
+
+% \usepackage{showframe} %% just for the example
+
+% \usepackage[sort,compress]{cite} %% disable if natbib package is activated
+\usepackage[numbers,sort&compress,square]{natbib} %% e.g., [2-5]
+
+
+
+%%------------------------------------------------------
+%% Definitions
+%%------------------------------------------------------
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+%% Can use something like this to put references on a page
+%% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+
+%%----------------- Definindo as variáveis com números
+\makeatletter
+%
+\newcommand{\prenome}{\afterassignment\prenome@aux\count0=}
+\newcommand{\prenome@aux}{\csname prenome\the\count0\endcsname}
+%
+\newcommand{\nomedomeio}{\afterassignment\nomedomeio@aux\count0=}
+\newcommand{\nomedomeio@aux}{\csname nomedomeio\the\count0\endcsname}
+%
+\newcommand{\sobrenome}{\afterassignment\sobrenome@aux\count0=}
+\newcommand{\sobrenome@aux}{\csname sobrenome\the\count0\endcsname}
+\makeatother
+%%%%%
+
+%%----------------- Configurações de hyperlinks
+%% Não decorado, sem destaque
+\hypersetup{
+  colorlinks=false,
+  pdfborder={0 0 0},
+}
+
+
+%%----------------- Título
+\title                                                {Space Game}
+
+\newcommand{\emailautor}                              {yasmin25kioko@gmail.com}
+
+\newcommand{\siglaRevista}                            {UFSC}
+
+\newcommand{\Revista}                                 {Universidade Federal de Santa Catarina (UFSC)}
+
+
+
+%%----------------- Autor Principal começo
+\newcommand{\prenomePrincipal}                        {Yasmin}
+\newcommand{\nomedomeioPrincipal}                     {Kioko Shimabuku}
+\newcommand{\sobrenomePrincipal}                      {da Silva}
+
+
+%%----------------- Apenas um autor no final
+\author{\IEEEauthorblockN{\prenomePrincipal~\nomedomeioPrincipal~\sobrenomePrincipal\IEEEauthorrefmark{1}}
+
+\IEEEauthorblockA{\IEEEauthorrefmark{1}Universidade Federal de Santa Catarina (UFSC)}% <-this % stops an unwanted space
+%%
+\thanks{\Revista. Correspond\^encia ao autor: \prenomePrincipal~\nomedomeioPrincipal~\sobrenomePrincipal~(email: \emailautor).}}
+
+
+%%------------------------------------------------------
+%% Cabeçalho
+\markboth{\MakeUppercase{\Revista}}%% acentuação indireta
+%% Apenas um autor:
+{\sobrenomePrincipal: \MakeUppercase{\Revista}}
+%% Mais de um autor:
+% {\sobrenomePrincipal: \MakeLowercase{\textit{et al.}}: \Revista}
+
+
+%%------------------------------------------------------
+%% Abstract
+\IEEEtitleabstractindextext{
+
+  {\selectlanguage{brazil}
+    \begin{abstract}
+     O jogo Space Game foi elaborado pensando na missão Apollo 11, realizada em 1969, na qual os astronautas Neil Armstrong, Michel Collins e Edwin Aldrin realizaram o primeiro pouso em solo lunar.
+    \end{abstract}
+    
+    
+    %%----------------- Keywords
+    \renewcommand\IEEEkeywordsname{Palavras-chave} %% Palavras-chave ao invés de 'Index Terms'
+    \begin{IEEEkeywords}
+    Jogo, Space Game, Ncurses.
+    \end{IEEEkeywords}
+  }
+}
+
+
+\begin{document}
+
+
+%%------------------------------------------------------
+%% Inserção de informações
+\maketitle
+\IEEEdisplaynontitleabstractindextext
+\IEEEpeerreviewmaketitle
+
+
+%%------------------------------------------------------
+%% Section
+\section{Introdução}
+
+\IEEEPARstart{O} jogo Space Game foi criado na intenção de fazer um indivíduo conseguir coletar um número máximo de estrelas, a fim de desbloquear o número de fases e velocidades disponíveis. Contudo, conforme o número da pontuação aproxima-se de uma fase, a velocidade do jogo também aumenta, dificultando a vitória. 
+
+
+%%------------------------------------------------------
+%% Section
+\section{Metodologia}
+
+Foram utilizadas as bibliotecas – stdio, ncurses, time, stdlib, unistd – a fim de facilitar a programação do jogo. A principal biblioteca utilizada foi a Ncurses, pois permite a manipulação de texto em coordenadas. 
+
+De início, foram declaradas variáveis inteiras e do tipo char para fazer com que o código reconheça os comandos ou os loops.  Em seguinda, funções da biblioteca Ncurses foram iniciadas, para fazer com que as teclas W,A,S,D e ESC sejam reconhecidas, por exemplo. 
+
+Para a formação da interface, foram utilizados mvprintw e move vline, que permitem o desenho de barras limitantes em linhas e colunas específicas. Além disso, para que ocorra a mudança de janela, foi utilizada a função getch, que espera o usuário inserir uma tecla para continuar a leitura do código. 
+
+A fim de tornar o jogo mais interativo, é pedido a escolha da velocidade inicial e a letra inicial do nome do usuário, e ambas as informações são armazenadas em variáveis, int e char respectivamente, para serem utilizadas posteriormente. Após a escolha de um número, ele é utilizado na função velocidade – quanto maior o número, maior a velocidade do jogo. Durante a inclusão do personagem, foi chamada a variável da letra que o usuário digitou e ela é responsável por mover-se na tela. Para movimentação do usuário, foram usadas as teclas W, A, S, D associadas a tabela ASCII, a fim de facilitar a movimentação em diversas formas de teclado. 
+
+Para que o código mantenha-se funcionando foi utilizada uma condição, até que o valor da variável fosse diferente. Dentro do loop, temos variáveis que armazenam valores das posições das coordenadas x e y, da inicial do usuário e da estrela. Conferindo  se a coordenada do usuário é igual a coordenada da estrela, e caso isso aconteça é marcado um ponto e emite um som. Com a finalidade de tornar as estrelas aleatórias, foi utilizada a função rand e com isso, a estreja sempre é gerada dentro do limite das linhas de borda. Para que ocorra a perda do jogo, é necessário que o usuário esteja na mesma posição que as linhas de borda, sendo preciso recomeçar.
+
+Todas as vezes que o usuário consegue um valor de cinco pontos uma imagem é desbloqueada, indicando a passagem de fase. Quando o total de pontos é igual o número programado, finaliza-se o jogo com a vitória.
+
+%%------------------------------------------------------
+%% Section
+\section{Conclusão}
+
+O jogo Space Game funcionou como esperado, utilizando os conhecimentos das bibliotecas e funções descritas. 
+
+
+\end{document}
